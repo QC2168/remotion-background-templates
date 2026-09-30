@@ -1,0 +1,9 @@
+node_modules/
+output/
+deliverables/
+reference/
+.env
+.env.*
+*.log
+__pycache__/
+.DS_Store

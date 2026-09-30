@@ -1,0 +1,98 @@
+[
+  {
+    "file": "01-UniformDots.gif",
+    "width": 1280,
+    "height": 720,
+    "frames": 72,
+    "duration_ms": 6000,
+    "bytes": 4675183
+  },
+  {
+    "file": "02-FadingDots.gif",
+    "width": 1280,
+    "height": 720,
+    "frames": 72,
+    "duration_ms": 6000,
+    "bytes": 7919461
+  },
+  {
+    "file": "03-ThinGrid.gif",
+    "width": 1280,
+    "height": 720,
+    "frames": 72,
+    "duration_ms": 6000,
+    "bytes": 4725762
+  },
+  {
+    "file": "04-PerspectiveDots.gif",
+    "width": 1280,
+    "height": 720,
+    "frames": 72,
+    "duration_ms": 6000,
+    "bytes": 4039117
+  },
+  {
+    "file": "05-HorizonGrid.gif",
+    "width": 1280,
+    "height": 720,
+    "frames": 72,
+    "duration_ms": 6000,
+    "bytes": 7042094
+  },
+  {
+    "file": "06-RadialNoise.gif",
+    "width": 1280,
+    "height": 720,
+    "frames": 72,
+    "duration_ms": 6000,
+    "bytes": 7724748
+  },
+  {
+    "file": "07-ContourWaves.gif",
+    "width": 1280,
+    "height": 720,
+    "frames": 72,
+    "duration_ms": 6000,
+    "bytes": 13094440
+  },
+  {
+    "file": "08-QuietHud.gif",
+    "width": 1280,
+    "height": 720,
+    "frames": 72,
+    "duration_ms": 6000,
+    "bytes": 1965400
+  },
+  {
+    "file": "09-DriftingParticles.gif",
+    "width": 1280,
+    "height": 720,
+    "frames": 72,
+    "duration_ms": 6000,
+    "bytes": 3008314
+  },
+  {
+    "file": "10-Honeycomb.gif",
+    "width": 1280,
+    "height": 720,
+    "frames": 72,
+    "duration_ms": 6000,
+    "bytes": 1699792
+  },
+  {
+    "file": "11-ScrollingHandles.gif",
+    "width": 1280,
+    "height": 720,
+    "frames": 72,
+    "duration_ms": 6000,
+    "bytes": 18479486
+  },
+  {
+    "file": "12-ScrollingHandles3D.gif",
+    "width": 1280,
+    "height": 720,
+    "frames": 72,
+    "duration_ms": 6000,
+    "bytes": 22525796
+  }
+]
