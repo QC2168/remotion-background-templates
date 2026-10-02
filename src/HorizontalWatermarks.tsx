@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {AbsoluteFill, useCurrentFrame, useVideoConfig, staticFile, delayRender, continueRender, cancelRender} from 'remotion';
 import type {BackgroundProps} from './Backgrounds';
 
-export const WATERMARK_PERIOD = 560;
-export const watermarkOffset = (frame: number, duration: number, speed = 1) =>
- -WATERMARK_PERIOD * (((frame / duration * speed) % 1 + 1) % 1);
+export const WATERMARK_PERIOD = {x:486, y:280};
+export const watermarkOffset = (frame: number, duration: number, speed = 1) => {
+ const progress = ((frame / duration * speed) % 1 + 1) % 1;
+ return {x:-WATERMARK_PERIOD.x * progress, y:WATERMARK_PERIOD.y * progress};
+};
 
-/** Label rotation is local: the outer translation remains on screen X only. */
+/** Local label rotation; screen-space motion runs from upper right to lower left. */
 export const HorizontalWatermarks: React.FC<BackgroundProps> = p => {
  const [fontHandle] = useState(() => delayRender('Load watermark CJK font'));
  useEffect(() => {
@@ -22,15 +24,17 @@ export const HorizontalWatermarks: React.FC<BackgroundProps> = p => {
  const opacity = Math.max(0, Math.min(1, p.intensity ?? 1));
  return <AbsoluteFill style={{backgroundColor:p.background ?? '#161616',overflow:'hidden'}}>
   <svg width="1920" height="1080" viewBox="0 0 1920 1080">
-   <g transform={`translate(${offset} 0)`} fill={p.color ?? '#3a3a3a'} opacity={opacity}
-    fontFamily="'Watermark Sans', sans-serif" fontWeight="800">
-    {Array.from({length:8},(_,r)=>r-1).map(row =>
-     Array.from({length:12},(_,c)=>c-2).map(col => {
-      const x = col * 280 + (row % 2 === 0 ? 0 : 126);
-      const y = row * 218 + (col % 2 === 0 ? 0 : -17) + 52;
+   <g transform={`translate(${offset.x} ${offset.y})`} fill={p.color ?? '#3a3a3a'} opacity={opacity}
+    fontFamily="'Watermark Sans', sans-serif" fontWeight="800" fontSize="30">
+    {Array.from({length:29},(_,r)=>r-4).map(row =>
+     Array.from({length:11},(_,c)=>c-3).map(col => {
+      // Along-baseline repeats and perpendicular row spacing form a loop lattice.
+      const x = col * WATERMARK_PERIOD.x + row * 50.4;
+      const y = -col * WATERMARK_PERIOD.y + row * 87.2;
+      const reverse = Math.abs(row % 2) === 1;
       return <React.Fragment key={`${row}-${col}`}>
-       <text transform={`translate(${x} ${y}) rotate(-30)`} fontSize="40">DIV</text>
-       <text transform={`translate(${x + 40} ${y + 109}) rotate(-30)`} fontSize="30">AI工程师-DIV</text>
+       <text transform={`translate(${x} ${y}) rotate(-30)`}>{reverse?'AI工程师-DIV':'DIV'}</text>
+       <text transform={`translate(${x + 243} ${y - 140}) rotate(-30)`}>{reverse?'DIV':'AI工程师-DIV'}</text>
       </React.Fragment>;
      })
     )}

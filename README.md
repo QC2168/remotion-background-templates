@@ -124,11 +124,11 @@
 </details>
 
 <details>
-<summary>13 · 水平滚动文字水印</summary>
+<summary>13 · 炫酷斜向循环文字背景</summary>
 
-近黑底、深灰粗体的 `DIV` 与 `AI工程师-DIV` 稀疏错位排列；每个标签倾斜 −30°，整体仅沿屏幕 X 轴匀速向左滚动。12 秒无声循环，不含发光、3D 或前景内容。Composition ID：`HorizontalWatermarks`
+深黑底、深灰文字，`DIV` 与 `AI工程师-DIV` 均为 30px / 800 字重，稀疏错位排列。文字倾角 −30°，从画面右上向左下移动；实际行距约 101px。每 12 秒向左移动 486px、向下移动 280px，无缝循环。Composition ID 保留 `HorizontalWatermarks` 以兼容已有调用，其实际运动为斜向。
 
-![水平滚动文字水印高清动画预览](docs/previews/13-HorizontalWatermarks.gif)
+![炫酷斜向循环文字背景高清动画预览](docs/previews/13-HorizontalWatermarks.gif)
 
 </details>
 
@@ -153,7 +153,7 @@ npm run render
 npx remotion render src/index.ts ScrollingHandles output/handles.mp4 --props='{"text":"@DIV","speed":1,"intensity":1}'
 ```
 
-单独渲染第 13 款水平文字水印（1080p、30fps、12 秒）：
+单独渲染第 13 款斜向循环文字背景（1080p、30fps、12 秒）：
 
 ```bash
 npx remotion render src/index.ts HorizontalWatermarks output/13-HorizontalWatermarks.mp4
@@ -171,7 +171,7 @@ npx remotion render src/index.ts HorizontalWatermarks output/13-HorizontalWaterm
 - `speed`：相对速度，0 为静止；整数速度保持完整周期
 - `seed`：粒子与噪声种子
 - 第 11 / 12 款文字墙附加 `text`、`fontSize`、`tilt`、`rowGap`
-- 第 13 款标签文字、字号与 −30° 倾角固定为参考设计；支持 `background`、`color`、`intensity`、`speed`。默认 12 秒水平移动 560px，约 46.67px/s；整数 `speed` 保持无缝循环
+- 第 13 款标签为固定 30px / 800 字重、−30° 倾角，行距约 101px；支持 `background`、`color`、`intensity`、`speed`。默认 12 秒位移 (−486,+280)px，总速度约 46.74px/s；整数 `speed` 倍率无缝循环。
 
 默认 11 号的基线为 −45°，每 6 秒滚动 4 行；12 号 X 轴透视为 32°、基线 −10°，每 6 秒滚动 8 行。文字以中性灰呈现，列不交错。参考截图只用于观察风格，不在成片或项目中分发。
 

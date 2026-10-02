@@ -20,11 +20,20 @@ def still(f):
  return np.array(Image.open(out/f'13-HorizontalWatermarks-f{f:03}.png').convert('RGB')).astype(float)
 a=still(0)
 motion=[]
-for frame,shift in [(90,140),(180,280),(270,420)]:
+template=a[526:600,965:1075]
+for frame,dx,dy in [(90,-121.5,70),(180,-243,140),(270,-364.5,210)]:
  b=still(frame)
- error=float(np.abs(a[:,shift:]-b[:,:-shift]).mean())
- assert error < 0.01, (frame,error)
- motion.append({'frame':frame,'screen_x_translation':-shift,'screen_y_translation':0,'pixel_mae':error})
+ candidates=[]
+ for tx in range(round(dx)-2,round(dx)+3):
+  for ty in range(dy-2,dy+3):
+   error=float(np.abs(template-b[526+ty:600+ty,965+tx:1075+tx]).mean())
+   candidates.append((error,tx,ty))
+ error,tx,ty=min(candidates)
+ assert error<1.8 and abs(tx-dx)<=1 and ty==dy, (frame,error,tx,ty)
+ assert tx<0 and ty>0
+ motion.append({'frame':frame,'expected_screen_translation':[dx,dy],'matched_same_DIV_translation':[tx,ty],'template_pixel_mae':error})
+full_shift_error=float(np.abs(a[:-140,243:]-still(180)[140:,:-243]).mean())
+assert full_shift_error<0.01, full_shift_error
 seams={
  'first_step_mae':float(np.abs(still(1)-a).mean()),
  'last_step_mae':float(np.abs(still(359)-still(358)).mean()),
@@ -44,8 +53,8 @@ for index,frame in enumerate(frames):
  arr=np.asarray(im)
  tile_counts=[]
  for y in range(0,1080,218):
-  for x in range(0,1920,280):
-   patch=arr[y:min(y+218,1080),x:min(x+280,1920)]
+  for x in range(0,1920,243):
+   patch=arr[y:min(y+218,1080),x:min(x+243,1920)]
    fraction=float((patch[:,:,0]>30).mean())
    tile_counts.append(fraction)
  assert min(tile_counts)>0.004, (frame,min(tile_counts))
@@ -54,6 +63,6 @@ for index,frame in enumerate(frames):
  contact.paste(im.resize((480,270)),(col*480,row*294+24))
  draw.text((col*480+10,row*294+6),f'{frame/30:.3f}s / frame {frame}',fill='#eeeeee')
 contact.save(out/'13-HorizontalWatermarks-contact.png')
-report={'spec':{'width':1920,'height':1080,'fps':30,'frames':360,'duration_seconds':12,'audio_streams':0},'motion':motion,'adjacent_and_loop_mae':seams,'coverage':coverage,'ffprobe':probe}
+report={'spec':{'width':1920,'height':1080,'fps':30,'frames':360,'duration_seconds':12,'audio_streams':0},'motion':motion,'full_frame_diagonal_shift_pixel_mae':full_shift_error,'adjacent_and_loop_mae':seams,'coverage':coverage,'ffprobe':probe}
 (out/'13-HorizontalWatermarks-validation.json').write_text(json.dumps(report,indent=2),encoding='utf8')
 print(json.dumps({k:v for k,v in report.items() if k!='ffprobe'},indent=2))
