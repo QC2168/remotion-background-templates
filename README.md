@@ -1,17 +1,17 @@
 # remotion-background-templates
 
-12 个可复用的 Remotion 动态背景模板
+13 个可复用的 Remotion 动态背景模板
 
 为 AI 教程、口播、录屏和知识讲解制作的低调动态背景。所有画面由 React + SVG / CSS 程序化生成，不依赖图库、音乐或外部视频。
 
-- 1920 × 1080 · 30 fps · 每段 6 秒 · 无音轨
-- 十二个独立 Composition 与可配置 React 组件
+- 1920 × 1080 · 30 fps · 前 12 款每段 6 秒，第 13 款 12 秒 · 无音轨
+- 十三个独立 Composition 与可配置 React 组件
 - 帧驱动、确定性动画；默认参数支持循环
 - 下方 GIF 为实际 Remotion 渲染视频的 1280 × 720 / 12 fps 预览
 
 ## 预览
 
-![十二款背景总览](docs/previews/contact-sheet.png)
+![十三款背景总览](docs/previews/contact-sheet.png)
 
 点击每款标题展开高清 GIF。
 
@@ -123,6 +123,15 @@
 
 </details>
 
+<details>
+<summary>13 · 水平滚动文字水印</summary>
+
+近黑底、深灰粗体的 `DIV` 与 `AI工程师-DIV` 稀疏错位排列；每个标签倾斜 −30°，整体仅沿屏幕 X 轴匀速向左滚动。12 秒无声循环，不含发光、3D 或前景内容。Composition ID：`HorizontalWatermarks`
+
+![水平滚动文字水印高清动画预览](docs/previews/13-HorizontalWatermarks.gif)
+
+</details>
+
 ## 本地使用
 
 需要 Node.js 20+。
@@ -143,6 +152,14 @@ npm run render
 ```bash
 npx remotion render src/index.ts ScrollingHandles output/handles.mp4 --props='{"text":"@DIV","speed":1,"intensity":1}'
 ```
+
+单独渲染第 13 款水平文字水印（1080p、30fps、12 秒）：
+
+```bash
+npx remotion render src/index.ts HorizontalWatermarks output/13-HorizontalWatermarks.mp4
+```
+
+也可运行 `node scripts/render-watermarks.mjs`，生成视频和多时间点静帧。需要本机验收时，运行 `python scripts/qa-watermarks.py`（依赖 Pillow、NumPy，以及 ffmpeg / ffprobe）。
 
 首次渲染会使用 / 下载 Remotion 官方 Chrome Headless Shell。也可通过 `REMOTION_BROWSER_EXECUTABLE` 指定兼容浏览器。
 

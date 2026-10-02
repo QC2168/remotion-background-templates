@@ -1,4 +1,6 @@
 import React from 'react';
+import {HorizontalWatermarks} from './HorizontalWatermarks';
+export {HorizontalWatermarks} from './HorizontalWatermarks';
 import {AbsoluteFill, useCurrentFrame, useVideoConfig, random} from 'remotion';
 
 /** All motion is derived from frame. speed is cycles/clip; use integers for perfect loops. */
@@ -85,5 +87,5 @@ const HandlePlane: React.FC<BackgroundProps & {perspective?: boolean}> = p => {
 };
 export const ScrollingHandles: React.FC<BackgroundProps> = p => <HandlePlane {...p}/>;
 export const ScrollingHandles3D: React.FC<BackgroundProps> = p => <HandlePlane {...p} perspective/>;
-export const BACKGROUNDS = [UniformDots,FadingDots,ThinGrid,PerspectiveDots,HorizonGrid,RadialNoise,ContourWaves,QuietHud,DriftingParticles,Honeycomb,ScrollingHandles,ScrollingHandles3D] as const;
-export const IDS = ['UniformDots','FadingDots','ThinGrid','PerspectiveDots','HorizonGrid','RadialNoise','ContourWaves','QuietHud','DriftingParticles','Honeycomb','ScrollingHandles','ScrollingHandles3D'] as const;
+export const BACKGROUNDS = [UniformDots,FadingDots,ThinGrid,PerspectiveDots,HorizonGrid,RadialNoise,ContourWaves,QuietHud,DriftingParticles,Honeycomb,ScrollingHandles,ScrollingHandles3D,HorizontalWatermarks] as const;
+export const IDS = ['UniformDots','FadingDots','ThinGrid','PerspectiveDots','HorizonGrid','RadialNoise','ContourWaves','QuietHud','DriftingParticles','Honeycomb','ScrollingHandles','ScrollingHandles3D','HorizontalWatermarks'] as const;
