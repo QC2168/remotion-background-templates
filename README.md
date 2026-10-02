@@ -170,7 +170,8 @@ npx remotion render src/index.ts HorizontalWatermarks output/13-HorizontalWaterm
 - `intensity`：强度 0–1
 - `speed`：相对速度，0 为静止；整数速度保持完整周期
 - `seed`：粒子与噪声种子
-- 文字墙附加 `text`、`fontSize`、`tilt`、`rowGap`
+- 第 11 / 12 款文字墙附加 `text`、`fontSize`、`tilt`、`rowGap`
+- 第 13 款标签文字、字号与 −30° 倾角固定为参考设计；支持 `background`、`color`、`intensity`、`speed`。默认 12 秒水平移动 560px，约 46.67px/s；整数 `speed` 保持无缝循环
 
 默认 11 号的基线为 −45°，每 6 秒滚动 4 行；12 号 X 轴透视为 32°、基线 −10°，每 6 秒滚动 8 行。文字以中性灰呈现，列不交错。参考截图只用于观察风格，不在成片或项目中分发。
 
