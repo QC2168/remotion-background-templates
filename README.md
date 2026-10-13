@@ -1,11 +1,11 @@
 # remotion-background-templates
 
-13 个可复用的 Remotion 动态背景模板
+14 个可复用的 Remotion 动态背景模板
 
 为 AI 教程、口播、录屏和知识讲解制作的低调动态背景。所有画面由 React + SVG / CSS 程序化生成，不依赖图库、音乐或外部视频。
 
-- 1920 × 1080 · 30 fps · 前 12 款每段 6 秒，第 13 款 12 秒 · 无音轨
-- 十三个独立 Composition 与可配置 React 组件
+- 1920 × 1080 · 30 fps · 前 12 款每段 6 秒，第 13 / 14 款 12 秒 · 无音轨
+- 十四个独立 Composition 与可配置 React 组件
 - 帧驱动、确定性动画；默认参数支持循环
 - 下方 GIF 为实际 Remotion 渲染视频的 1280 × 720 / 12 fps 预览
 
@@ -126,9 +126,23 @@
 <details>
 <summary>13 · 炫酷斜向循环文字背景</summary>
 
-深黑底、深灰文字，`DIV` 与 `AI工程师-DIV` 均为 30px / 800 字重，稀疏错位排列。文字倾角 −30°，从画面右上向左下移动；实际行距约 101px。每 12 秒向左移动 486px、向下移动 280px，无缝循环。Composition ID 保留 `HorizontalWatermarks` 以兼容已有调用，其实际运动为斜向。
+深黑底、深灰文字，`DIV` 与 `AI工程师-DIV` 均为 40px / 800 字重，稀疏错位排列，并带 #343434 / 0.5px 细描边。文字倾角 −30°，从画面右上向左下移动；实际行距约 101px。每 12 秒向左移动 486px、向下移动 280px，无缝循环。Composition ID 保留 `HorizontalWatermarks` 以兼容已有调用，其实际运动为斜向。
 
 ![炫酷斜向循环文字背景高清动画预览](docs/previews/13-HorizontalWatermarks.gif)
+
+</details>
+
+
+<details>
+<summary>14 · 实心镂空交替文字背景</summary>
+
+粗体实心行与正体镂空行交替，使用项目已有 Alibaba PuHuiTi 字体资源。保留第 13 款的 `DIV` / `AI工程师-DIV` 顺序、−30° 倾角、字形中心等距排列和右上到左下的运动。两种字形均为正体，实心行字号 60px、镂空行字号 72px，均为 800 字重。实心文字 #555555，镂空轮廓 #686868 / 1.25px，字间距 1px；行距 144px，同行重复周期约 701px；每 12 秒位移 (−607.5,+350)px，无缝循环。参考图的具体字体名称未确认。Composition ID：`LayeredWatermarks`。
+
+完整预览可本地渲染：
+
+```bash
+npx remotion render src/index.ts LayeredWatermarks output/14-LayeredWatermarks.mp4
+```
 
 </details>
 
@@ -171,7 +185,7 @@ npx remotion render src/index.ts HorizontalWatermarks output/13-HorizontalWaterm
 - `speed`：相对速度，0 为静止；整数速度保持完整周期
 - `seed`：粒子与噪声种子
 - 第 11 / 12 款文字墙附加 `text`、`fontSize`、`tilt`、`rowGap`
-- 第 13 款标签为固定 30px / 800 字重、−30° 倾角，行距约 101px；支持 `background`、`color`、`intensity`、`speed`。默认 12 秒位移 (−486,+280)px，总速度约 46.74px/s；整数 `speed` 倍率无缝循环。
+- 第 13 款标签为固定 40px / 800 字重、−30° 倾角，行距约 101px；支持 `background`、`color`、`intensity`、`speed`。默认 12 秒位移 (−486,+280)px，总速度约 46.74px/s；整数 `speed` 倍率无缝循环。
 
 默认 11 号的基线为 −45°，每 6 秒滚动 4 行；12 号 X 轴透视为 32°、基线 −10°，每 6 秒滚动 8 行。文字以中性灰呈现，列不交错。参考截图只用于观察风格，不在成片或项目中分发。
 

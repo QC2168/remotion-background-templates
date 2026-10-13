@@ -9,7 +9,7 @@ for path in sorted(out.glob('[0-9][0-9]-*.mp4')):
  if 'showcase' in path.name or 'preview' in path.name: continue
  probe=json.loads(subprocess.check_output([ffprobe,'-v','error','-show_streams','-show_format','-of','json',str(path)]))
  streams=probe['streams']; video=streams[0]
- expected_frames=360 if path.name=='13-HorizontalWatermarks.mp4' else 180
+ expected_frames=360 if path.name in ('13-HorizontalWatermarks.mp4','14-LayeredWatermarks.mp4') else 180
  assert len(streams)==1 and video['codec_type']=='video'
  assert video['codec_name']=='h264' and video['pix_fmt'] in ('yuv420p','yuvj420p')
  assert (video['width'],video['height'],video['r_frame_rate'],int(video['nb_frames']))==(1920,1080,'30/1',expected_frames)
