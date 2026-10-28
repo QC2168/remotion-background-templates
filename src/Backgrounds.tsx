@@ -89,5 +89,63 @@ const HandlePlane: React.FC<BackgroundProps & {perspective?: boolean}> = p => {
 };
 export const ScrollingHandles: React.FC<BackgroundProps> = p => <HandlePlane {...p}/>;
 export const ScrollingHandles3D: React.FC<BackgroundProps> = p => <HandlePlane {...p} perspective/>;
-export const BACKGROUNDS = [UniformDots,FadingDots,ThinGrid,PerspectiveDots,HorizonGrid,RadialNoise,ContourWaves,QuietHud,DriftingParticles,Honeycomb,ScrollingHandles,ScrollingHandles3D,HorizontalWatermarks,LayeredWatermarks] as const;
-export const IDS = ['UniformDots','FadingDots','ThinGrid','PerspectiveDots','HorizonGrid','RadialNoise','ContourWaves','QuietHud','DriftingParticles','Honeycomb','ScrollingHandles','ScrollingHandles3D','HorizontalWatermarks','LayeredWatermarks'] as const;
+export type DotMatrixProps = BackgroundProps & {
+  gap?: number;
+  dotRadius?: number;
+  breathing?: boolean;
+  watermarkText?: string;
+};
+
+export const DotMatrix: React.FC<DotMatrixProps> = p => {
+  const s = useScene(p);
+  const {width, height} = useVideoConfig();
+  const bg = p.background ?? '#000000';
+  const color = p.color ?? '#ffffff';
+  const gap = p.gap ?? 36;
+  const dotRadius = p.dotRadius ?? 1.2;
+  const breathing = p.breathing ?? true;
+  const watermark = p.watermarkText ?? p.text;
+  const baseOpacity = breathing ? 0.13 + 0.03 * Math.sin(s.phase) : 0.14;
+  const opacity = baseOpacity * s.strength;
+
+  return (
+    <AbsoluteFill style={{backgroundColor: bg, overflow: 'hidden'}}>
+      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+        <defs>
+          <pattern
+            id="dot-matrix-pattern"
+            width={gap}
+            height={gap}
+            patternUnits="userSpaceOnUse"
+          >
+            <circle cx={gap / 2} cy={gap / 2} r={dotRadius} fill={color} />
+          </pattern>
+        </defs>
+        {watermark && (
+          <text
+            x={width / 2}
+            y={height / 2}
+            textAnchor="middle"
+            dominantBaseline="central"
+            fill={color}
+            fontSize={p.fontSize ?? 200}
+            fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace, sans-serif"
+            fontWeight="800"
+            letterSpacing="4"
+            opacity={0.04 * s.strength}
+          >
+            {watermark}
+          </text>
+        )}
+        <rect
+          width={width}
+          height={height}
+          fill="url(#dot-matrix-pattern)"
+          opacity={opacity}
+        />
+      </svg>
+    </AbsoluteFill>
+  );
+};
+export const BACKGROUNDS = [UniformDots,FadingDots,ThinGrid,PerspectiveDots,HorizonGrid,RadialNoise,ContourWaves,QuietHud,DriftingParticles,Honeycomb,ScrollingHandles,ScrollingHandles3D,HorizontalWatermarks,LayeredWatermarks,DotMatrix] as const;
+export const IDS = ['UniformDots','FadingDots','ThinGrid','PerspectiveDots','HorizonGrid','RadialNoise','ContourWaves','QuietHud','DriftingParticles','Honeycomb','ScrollingHandles','ScrollingHandles3D','HorizontalWatermarks','LayeredWatermarks','DotMatrix'] as const;

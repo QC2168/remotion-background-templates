@@ -1,11 +1,11 @@
 # remotion-background-templates
 
-14 个可复用的 Remotion 动态背景模板
+15 个可复用的 Remotion 动态背景模板
 
 为 AI 教程、口播、录屏和知识讲解制作的低调动态背景。所有画面由 React + SVG / CSS 程序化生成，不依赖图库、音乐或外部视频。
 
-- 1920 × 1080 · 30 fps · 前 12 款每段 6 秒，第 13 / 14 款 12 秒 · 无音轨
-- 十四个独立 Composition 与可配置 React 组件
+- 1920 × 1080 · 30 fps · 前 12 款与第 15 款每段 6 秒，第 13 / 14 款 12 秒 · 无音轨
+- 十五个独立 Composition 与可配置 React 组件
 - 帧驱动、确定性动画；默认参数支持循环
 - 下方 GIF 为实际 Remotion 渲染视频的 1280 × 720 / 12 fps 预览
 
@@ -146,6 +146,13 @@ npx remotion render src/index.ts LayeredWatermarks output/14-LayeredWatermarks.m
 
 </details>
 
+<details>
+<summary>15 · 极客点阵（DotMatrix）</summary>
+
+纯黑底色搭配极细白点阵，采用原生 SVG `<pattern>` 硬件加速，固定坐标不产生位移滚动。支持正弦微呼吸动效（0.10–0.16 平滑过渡，保证 6 秒或 12 秒首尾平滑循环）与底层大号暗纹文字（如 'DIV' 或 'Agent'）。Composition ID：`DotMatrix`、`Background-DotMatrix`（横屏 1920×1080）、`Background-DotMatrix-Vertical`（竖屏 1080×1920）。
+
+</details>
+
 ## 本地使用
 
 需要 Node.js 20+。
@@ -172,6 +179,14 @@ npx remotion render src/index.ts ScrollingHandles output/handles.mp4 --props='{"
 ```bash
 npx remotion render src/index.ts HorizontalWatermarks output/13-HorizontalWatermarks.mp4
 ```
+
+单独渲染第 15 款极客点阵背景（横屏 1080p / 竖屏 1080×1920）：
+
+```bash
+npx remotion render src/index.ts Background-DotMatrix output/Background-DotMatrix.mp4
+npx remotion render src/index.ts Background-DotMatrix-Vertical output/Background-DotMatrix-Vertical.mp4
+```
+
 
 也可运行 `node scripts/render-watermarks.mjs`，生成视频和多时间点静帧。需要本机验收时，运行 `python scripts/qa-watermarks.py`（依赖 Pillow、NumPy，以及 ffmpeg / ffprobe）。
 
