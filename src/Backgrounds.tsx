@@ -94,6 +94,9 @@ export type DotMatrixProps = BackgroundProps & {
   dotRadius?: number;
   breathing?: boolean;
   watermarkText?: string;
+  spotlight?: boolean;
+  spotlightColor?: string;
+  crossAnchors?: boolean;
 };
 
 export const DotMatrix: React.FC<DotMatrixProps> = p => {
@@ -102,47 +105,114 @@ export const DotMatrix: React.FC<DotMatrixProps> = p => {
   const bg = p.background ?? '#000000';
   const color = p.color ?? '#ffffff';
   const gap = p.gap ?? 48;
-  const dotRadius = p.dotRadius ?? 2.8;
+  const baseRadius = p.dotRadius ?? 2.6;
   const breathing = p.breathing ?? true;
+  const showSpotlight = p.spotlight ?? true;
+  const spotlightColor = p.spotlightColor ?? '#38bdf8';
+  const showCrosses = p.crossAnchors ?? true;
   const watermark = p.watermarkText ?? p.text;
-  const baseOpacity = breathing ? 0.35 + 0.08 * Math.sin(s.phase) : 0.38;
-  const opacity = baseOpacity * s.strength;
+
+  const cx = width / 2;
+  const cy = height / 2;
+  const maxD = Math.hypot(cx, cy);
+
+  const cols = Math.ceil(width / gap);
+  const rows = Math.ceil(height / gap);
+  const startX = (width - (cols - 1) * gap) / 2;
+  const startY = (height - (rows - 1) * gap) / 2;
+
+  const elements: React.ReactNode[] = [];
+
+  for (let r = 0; r < rows; r++) {
+    const y = startY + r * gap;
+    for (let c = 0; c < cols; c++) {
+      const x = startX + c * gap;
+      const d = Math.hypot(x - cx, y - cy);
+      const normD = d / maxD;
+
+      // Radial wave propagation: phase delayed by distance from center
+      const dotPhase = s.phase - normD * Math.PI * 2;
+      const wave = breathing ? 0.5 + 0.5 * Math.sin(dotPhase) : 0.5;
+
+      // Spotlight center falloff: center is prominent, outer edge fades into deep black
+      const centerFalloff = Math.max(0.38, 1.0 - normD * 0.62);
+
+      // Contrast: center peak ~0.45, center trough ~0.25, edges ~0.15
+      const opacity = (0.20 + 0.25 * wave) * centerFalloff * s.strength;
+      const dotR = (baseRadius * 0.85 + baseRadius * 0.35 * wave) * centerFalloff;
+
+      const isCross = showCrosses && c % 4 === 2 && r % 4 === 2;
+
+      if (isCross) {
+        elements.push(
+          <path
+            key={`cr-${c}-${r}`}
+            d={`M ${x - 4} ${y} H ${x + 4} M ${x} ${y - 4} V ${x + 4}`}
+            stroke={color}
+            strokeWidth="1.2"
+            opacity={opacity * 1.35}
+            strokeLinecap="round"
+          />
+        );
+      } else {
+        elements.push(
+          <circle
+            key={`pt-${c}-${r}`}
+            cx={x}
+            cy={y}
+            r={dotR}
+            fill={color}
+            opacity={opacity}
+          />
+        );
+      }
+    }
+  }
 
   return (
     <AbsoluteFill style={{backgroundColor: bg, overflow: 'hidden'}}>
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
         <defs>
-          <pattern
-            id="dot-matrix-pattern"
-            width={gap}
-            height={gap}
-            patternUnits="userSpaceOnUse"
-          >
-            <circle cx={gap / 2} cy={gap / 2} r={dotRadius} fill={color} />
-          </pattern>
+          {showSpotlight && (
+            <radialGradient id="stage-spotlight" cx="50%" cy="48%" r="62%">
+              <stop offset="0%" stopColor={spotlightColor} stopOpacity={0.09 * s.strength} />
+              <stop offset="42%" stopColor={spotlightColor} stopOpacity={0.035 * s.strength} />
+              <stop offset="100%" stopColor={spotlightColor} stopOpacity="0" />
+            </radialGradient>
+          )}
         </defs>
+
+        {/* Ambient Stage Spotlight */}
+        {showSpotlight && (
+          <ellipse
+            cx={cx}
+            cy={cy * 0.96}
+            rx={width * 0.58}
+            ry={height * 0.52}
+            fill="url(#stage-spotlight)"
+          />
+        )}
+
+        {/* Monospace Brand Watermark */}
         {watermark && (
           <text
-            x={width / 2}
-            y={height / 2}
+            x={cx}
+            y={cy}
             textAnchor="middle"
             dominantBaseline="central"
             fill={color}
             fontSize={p.fontSize ?? 200}
             fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace, sans-serif"
             fontWeight="800"
-            letterSpacing="4"
-            opacity={0.08 * s.strength}
+            letterSpacing="6"
+            opacity={0.07 * s.strength}
           >
             {watermark}
           </text>
         )}
-        <rect
-          width={width}
-          height={height}
-          fill="url(#dot-matrix-pattern)"
-          opacity={opacity}
-        />
+
+        {/* Phase-Wave Spatial Dot Grid */}
+        <g>{elements}</g>
       </svg>
     </AbsoluteFill>
   );
