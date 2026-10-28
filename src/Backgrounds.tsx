@@ -101,11 +101,11 @@ export const DotMatrix: React.FC<DotMatrixProps> = p => {
   const {width, height} = useVideoConfig();
   const bg = p.background ?? '#000000';
   const color = p.color ?? '#ffffff';
-  const gap = p.gap ?? 36;
-  const dotRadius = p.dotRadius ?? 1.2;
+  const gap = p.gap ?? 48;
+  const dotRadius = p.dotRadius ?? 2.8;
   const breathing = p.breathing ?? true;
   const watermark = p.watermarkText ?? p.text;
-  const baseOpacity = breathing ? 0.13 + 0.03 * Math.sin(s.phase) : 0.14;
+  const baseOpacity = breathing ? 0.35 + 0.08 * Math.sin(s.phase) : 0.38;
   const opacity = baseOpacity * s.strength;
 
   return (
@@ -132,7 +132,7 @@ export const DotMatrix: React.FC<DotMatrixProps> = p => {
             fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace, sans-serif"
             fontWeight="800"
             letterSpacing="4"
-            opacity={0.04 * s.strength}
+            opacity={0.08 * s.strength}
           >
             {watermark}
           </text>

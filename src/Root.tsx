@@ -42,8 +42,8 @@ export const Root: React.FC = () => (
         intensity: 1,
         speed: 1,
         seed: 42,
-        gap: 36,
-        dotRadius: 1.2,
+        gap: 48,
+        dotRadius: 2.8,
         breathing: true,
         watermarkText: 'DIV',
       }}
@@ -60,8 +60,8 @@ export const Root: React.FC = () => (
         intensity: 1,
         speed: 1,
         seed: 42,
-        gap: 36,
-        dotRadius: 1.2,
+        gap: 48,
+        dotRadius: 2.8,
         breathing: true,
         watermarkText: 'DIV',
       }}
